@@ -1,0 +1,20 @@
+<ion-card class="cocktailCards" (click)="onLoadRecipe()">
+  <ion-card-header >
+    <ion-card-title style="font-size: 1.3em">{{ cocktail.name }}</ion-card-title>
+    <!-- <ion-badge item-end>{{ cocktail.price }}$</ion-badge> -->
+    
+  </ion-card-header>
+  <ion-img [src]="cocktail.photourl" ></ion-img>
+  <!-- <div style="display: inline; margin-left: 10px;" *ngFor="let tag of tags"> -->
+      <!-- <ion-badge style="padding: 6px 10px;margin: 6px 3px; background-color: orange" item-end>{{ tag }}</ion-badge> -->
+    <!-- </div> -->
+    
+      <ion-card-content *ngIf="recipeIsVisible">
+        <ion-list *ngFor="let ingredient of cocktail.ingredients">
+          <ion-item>{{ ingredient.amount}} {{ ingredient.ingredient }}</ion-item>      
+        </ion-list>
+        <div style="margin: 10px; text-align: center">{{ cocktail.preparation }}</div>
+        <div>{{ cocktail.decoration }}</div>
+    </ion-card-content>
+    
+    </ion-card>

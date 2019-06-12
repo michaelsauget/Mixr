@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title  color="light" class="ion-float-left" style="font-size: 1.8em; vertical-align: middle;">
+      Mixrr
+    </ion-title>
+      <ion-icon 
+        class="ion-float-right"
+        [color]="searchViewIsActive ? 'light' : 'primary'"
+        (click)="toggleSearchBar()"
+        style="zoom:2.0; margin-right: 10px;"
+        name="search">
+      </ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #cocktailList *ngIf="!isInRecipeView" color="medium">
+  <div>
+    <ion-searchbar #searchBar  *ngIf="searchViewIsActive" [(ngModel)]="searchText" placeholder="Entrez un nom de cocktail" (ionChange)="onSearchBarInput()" showCancelButton></ion-searchbar>
+    <div *ngFor="let cocktail of cocktails">
+      <div #card>
+        <app-cocktail-thumbnail [cocktail]="cocktail" (viewRecipeEmitter)="onCocktailSelected($event)"></app-cocktail-thumbnail>
+      </div>
+    </div>
+    <div style="margin: 20px; border-bottom: 2px solid rgb(220, 220, 220)"></div>
+  </div>
+</ion-content>
+
+<ion-content #recipeView *ngIf="isInRecipeView" color="medium">
+    <div>
+      <app-recipe-view [cocktailToDisplay]="cocktailToDisplay" (leaveRecipeEmitter)="onResumeCocktailList()"></app-recipe-view>
+    </div>
+  </ion-content>

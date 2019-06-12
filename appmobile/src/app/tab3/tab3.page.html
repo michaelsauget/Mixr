@@ -1,0 +1,53 @@
+<ion-header style="position: fixed; top: 0;">
+    <ion-toolbar scroll="false" color="light">
+      <!-- <ion-icon class="ion-float-left"  color="primary" (click)="leaveRecipeView()" style="zoom:1.5; margin-left: 10px;" name="arrow-back"></ion-icon> -->
+      <ion-title  color="dark" style="font-size: 1.3em; vertical-align: middle;">
+        Ajouter un cocktail
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+ 
+<form style="margin-top: 60px" (ngSubmit)="logForm()">
+
+      <ion-item>
+          <ion-label position="floating">Nom du cocktail</ion-label>
+          <ion-input type="text" [(ngModel)]="cocktail.name" name="name"></ion-input>
+      </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Prix ($)</ion-label>
+        <ion-input type="number"  [(ngModel)]="cocktail.price" name="price"></ion-input>
+      </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Préparation</ion-label>
+      <ion-textarea [(ngModel)]="cocktail.preparation" name="preparation"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Décoration</ion-label>
+        <ion-textarea [(ngModel)]="cocktail.decoration" name="decoration"></ion-textarea>
+    </ion-item>
+    
+        <ion-list>
+            <ion-item>
+              <ion-label>Pastille de saveur</ion-label>
+              <ion-select multiple="true"  name="tastetags" [(ngModel)]="selectedTags" >
+                <div *ngFor="let tag of tasteTags">
+                  <ion-select-option [value]="tag.taste">{{ tag.taste }}</ion-select-option>
+                </div>
+              </ion-select>
+            </ion-item>
+        </ion-list>
+
+        <div></div>
+
+        
+    <ion-button type="submit" block style="position: absolute; width: 100%; bottom: 0px;">Ajouter cocktail</ion-button>
+  </form>
+
+  
+<div style="margin: 20px 10px; border-bottom: 2px solid rgb(220, 220, 220)"></div>
+
+  
