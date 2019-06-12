@@ -35,7 +35,6 @@ export class RecipeViewComponent implements AfterViewInit {
       });
   }
 
-
   public leaveRecipeView(): void {
     this.leaveRecipeEmitter.emit();
   }
