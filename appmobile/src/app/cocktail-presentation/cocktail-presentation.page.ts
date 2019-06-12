@@ -25,10 +25,10 @@ export class CocktailPresentationPage implements OnInit {
   }
 
   private getRecipe(): void {
-    this.httpClient.get<iRecipeQuery>(Constants.SERVER_URL + ":" + Constants.SERVER_PORT + Constants.API_RECIPE + this.cocktail.cocktailno)
+    this.httpClient.get<iRecipeQuery>(Constants.SERVER_URL + ":" + Constants.SERVER_PORT + Constants.API_RECIPE + "cocktailno/" +  this.cocktail.cocktailno)
       .subscribe((query: iRecipeQuery) => {
-        // console.log(query);
-        this.recipe = query.recipe;
+        this.recipe = query.foundRecipe;
+        
         // this.recipe.ingredients.sort((ing1: iIngredient, ing2: iIngredient) => {
         //   return Number(ing1.type) - Number(ing2.type);
         // })
