@@ -25,9 +25,7 @@
     </ion-searchbar>
 
     <div *ngFor="let cocktail of cocktails">
-      <div #card>
         <app-cocktail-thumbnail [cocktail]="cocktail" (viewRecipeEmitter)="onCocktailSelected($event)"></app-cocktail-thumbnail>
-      </div>
     </div>
     <div style="margin: 20px; border-bottom: 2px solid rgb(220, 220, 220)"></div>
   </div>
