@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-grid>
+          <ion-row>
+            <ion-col size="1">
+              <ion-icon 
+              [color]="searchViewIsActive ? 'light' : 'primary'"
+              (click)="closeModal()"
+              style="zoom:1.5;"
+              name="close">
+            </ion-icon>
+          </ion-col>
+          <ion-col>
+            <ion-title class="ion-float-left">{{ cocktail.name }}</ion-title>
+          </ion-col>
+          <ion-col size="1"></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-img [src]="cocktail.photourl"></ion-img>
+    
+    <div  #recipeDisplay style="color: black; padding-left: 10px; padding-right: 10px">
+        <h4>Ingrédients</h4>
+        <div style="margin-left: 10px;" *ngFor="let ingredient of recipe?.ingredients">
+            <div>
+              <div style="display: inline-block; font-weight: 400; width:40px; text-align: start; padding-right: 5px">
+                  {{ ingredient.quantity }}
+                </div>
+                {{ ingredient.preposition }}
+                {{ ingredient.aliment }}</div>
+                <!-- <div>{{ ingredient }}</div> -->
+              </div>
+              
+              <h5>Préparation</h5>
+              <div  style="margin-left: 10px;">{{ cocktail.preparation }}</div>
+              
+              <h5>Décoration</h5>
+              <div  style="margin-bottom: 20px; margin-left: 10px;">{{ cocktail.decoration }}</div>
+              <!-- <div style="margin: 20px 10px; border-bottom: 2px solid rgb(220, 220, 220)"></div> -->
+              
+            </div>
+  </ion-content>
+
