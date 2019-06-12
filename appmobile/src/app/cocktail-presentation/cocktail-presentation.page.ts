@@ -18,21 +18,11 @@ export class CocktailPresentationPage implements OnInit {
 
   ngOnInit() {
     this.getRecipe();
-
-    // console.log("\n\nCOMING FROM THE MODAL : \n");
-    
-    // console.log(this.cocktail);
   }
 
   public closeModal(): void {
     this.modalController.dismiss();
   }
-
-
-  
-  
-  // ngAfterViewInit(): void {
-  // }
 
   private getRecipe(): void {
     this.httpClient.get<iRecipeQuery>(Constants.SERVER_URL + ":" + Constants.SERVER_PORT + Constants.API_RECIPE + this.cocktail.cocktailno)
@@ -42,7 +32,6 @@ export class CocktailPresentationPage implements OnInit {
         // this.recipe.ingredients.sort((ing1: iIngredient, ing2: iIngredient) => {
         //   return Number(ing1.type) - Number(ing2.type);
         // })
-        // console.log(this.recipe);
       });
   }
 }
