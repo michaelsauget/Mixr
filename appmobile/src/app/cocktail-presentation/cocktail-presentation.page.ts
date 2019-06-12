@@ -11,8 +11,8 @@ import { Constants } from '../../../../common/constants';
 })
 export class CocktailPresentationPage implements OnInit {
   
-  public cocktail: iCocktail;
-  public recipe: iRecipe;
+  public cocktail:  iCocktail;
+  public recipe:    iRecipe;
 
   constructor(private httpClient: HttpClient, public modalController: ModalController) { }
 
