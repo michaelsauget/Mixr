@@ -12,6 +12,14 @@ export class Tab3Page implements AfterViewInit {
 
   public tasteTags: iTasteTag[];
   public selectedTags: string;
+  public cocktail: iCocktail = {
+    cocktailno:     "",
+    name:           "",
+    price:          "", // a changer?
+    photourl:       "",
+    preparation:    "",
+    decoration:     "",
+  };
   
   constructor(private httpClient: HttpClient) {}
   
@@ -28,14 +36,6 @@ export class Tab3Page implements AfterViewInit {
     });
   }
 
-  public cocktail: iCocktail = {
-    cocktailno:     "",
-    name:           "",
-    price:          "", // a changer
-    photourl:       "",
-    preparation:    "",
-    decoration:     "",
-  };
 
   logForm() {
     console.log(this.cocktail)
