@@ -5,19 +5,18 @@
     </ion-title>
       <ion-icon 
         class="ion-float-right"
-        [color]="searchViewIsActive ? 'light' : 'primary'"
+        color="light"
         (click)="toggleSearchBar()"
-        style="zoom:2.0; margin-right: 10px;"
+        style="zoom:2.0; margin-right: 10px; "
         name="search">
       </ion-icon>
   </ion-toolbar>
 </ion-header>
 
-<ion-content #cocktailList *ngIf="!isInRecipeView" color="medium">
+<ion-content #cocktailList color="light">
   <div>
     <ion-searchbar
       #searchBar
-      *ngIf="searchViewIsActive"
       [(ngModel)]="searchText"
       placeholder="Entrez un nom de cocktail"
       (ionChange)="onSearchBarInput()"
@@ -27,12 +26,5 @@
     <div *ngFor="let cocktail of cocktails">
         <app-cocktail-thumbnail [cocktail]="cocktail" (viewRecipeEmitter)="openCocktailPage($event)"></app-cocktail-thumbnail>
     </div>
-    <div style="margin: 20px; border-bottom: 2px solid rgb(220, 220, 220)"></div>
   </div>
 </ion-content>
-
-<ion-content #recipeView *ngIf="isInRecipeView" color="medium">
-    <div>
-      <app-recipe-view [cocktailToDisplay]="cocktailToDisplay" (leaveRecipeEmitter)="onResumeCocktailList()"></app-recipe-view>
-    </div>
-  </ion-content>
