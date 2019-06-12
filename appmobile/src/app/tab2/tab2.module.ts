@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { CocktailThumbnailComponent } from '../cocktail-thumbnail/cocktail-thumbnail.component';
-import { RecipeViewComponent } from "../recipe-view/recipe-view.component";
 import { CocktailPresentationPage } from "../cocktail-presentation/cocktail-presentation.page";
 @NgModule({
   imports: [
@@ -18,7 +17,6 @@ import { CocktailPresentationPage } from "../cocktail-presentation/cocktail-pres
     Tab2Page,
     CocktailThumbnailComponent,
     CocktailPresentationPage,
-    RecipeViewComponent
   ],
   entryComponents: [CocktailPresentationPage],
 })
