@@ -6,6 +6,8 @@ import { Constants } from "../../../../common/constants";
 
 import { ViewChild} from '@angular/core';
 import { IonSearchbar } from '@ionic/angular';
+import { CocktailPresentationPage } from "../cocktail-presentation/cocktail-presentation.page";
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -25,10 +27,23 @@ export class Tab2Page implements OnInit {
 
   @ViewChild("searchBar") searchBar: IonSearchbar;
 
-  public constructor(private httpClient: HttpClient) {}
+  public constructor(private httpClient: HttpClient, public modalController: ModalController) {}
   
   public async ngOnInit(): Promise<void> {
     await this.fetchAllCocktails();
+  }
+
+  public async openCocktailPage(cocktailToDisplay: iCocktail): Promise<void> {
+  // 
+    this.cocktailToDisplay = cocktailToDisplay;
+
+    const modal = await this.modalController.create({
+      component: CocktailPresentationPage,
+      componentProps: {
+        cocktail: this.cocktailToDisplay,
+      }
+    });
+    return await modal.present();
   }
 
   public onSearchBarInput(): void {
@@ -47,6 +62,7 @@ export class Tab2Page implements OnInit {
     this.isInRecipeView = false;
   }
 
+  // jpense que cette fonction est devenue obsolète
   public onCocktailSelected(cocktailToDisplay: iCocktail): void {
     // recevoir un event que le cocktail thumbnail va emit
     this.cocktailToDisplay = cocktailToDisplay;
