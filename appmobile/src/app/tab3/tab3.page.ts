@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { iCocktail, iTasteTag, iTasteTagQuery } from '../../../../common/interfaces';
+import { iCocktail, iTasteTag, iTasteTagQuery, iIngredient } from '../../../../common/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Constants } from '../../../../common/constants';
 
@@ -20,6 +20,7 @@ export class Tab3Page implements AfterViewInit {
     preparation:    "",
     decoration:     "",
   };
+  public ingredients: iIngredient;
   
   constructor(private httpClient: HttpClient) {}
   
@@ -31,7 +32,6 @@ export class Tab3Page implements AfterViewInit {
     this.httpClient.get<iTasteTagQuery>(Constants.SERVER_URL + ":" + Constants.SERVER_PORT + Constants.API_COCKTAIL + "/tastetags")
     .subscribe((query: iTasteTagQuery) => {
       this.tasteTags = query.tags;
-      console.log(this.tasteTags);
       
     });
   }
