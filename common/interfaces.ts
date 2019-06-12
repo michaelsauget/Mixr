@@ -14,23 +14,34 @@ export interface iCocktailQuery {
 
 export interface iRecipeQuery {
     hasBeenFound:   boolean,
-    recipe:         iRecipe,
+    foundRecipe?:   iRecipe,
 }
 
 export interface iRecipe {
-    cocktailno:     string;
-    ingredients:    iIngredient[]; 
+    cocktailno:             string;
+    cocktailIngredients:    iCocktailIngredient[]; 
+}
+
+export interface iCocktailIngredient {
+    quantity:       number;
+    ingredient:     iIngredient;
 }
 
 export interface iIngredient {
-    quantity:       number;
+    ingredientNo:   string;
+    ingredientName: string;
     preposition:    string;
-    aliment:        string;
+    ingredientType: iIngredientType;
+}
+
+export interface iIngredientType {
+    typeno:         string;
     type:           string;
 }
 
 export interface iTasteTag {
-    taste:            string;
+    tagNo:          string;
+    taste:          string;
 }
 
 export interface iTasteTagQuery {

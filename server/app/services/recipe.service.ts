@@ -1,7 +1,7 @@
 
 import { injectable } from "inversify";
 import "reflect-metadata";
-import { iIngredient, iRecipe, iRecipeQuery } from "../../../common/interfaces";
+import { iCocktailIngredient, iIngredient, iIngredientType, iRecipe, iRecipeQuery } from "../../../common/interfaces";
 import { DatabaseConnectionService } from "./databaseConnection.service";
 
 // tslint:disable-next-line: variable-name no-any
@@ -17,37 +17,43 @@ export class RecipeService extends DatabaseConnectionService {
     public async getCocktailRecipe(cocktailNo: string): Promise<iRecipeQuery> {
         return this.connection.query(
             // tslint:disable-next-line:max-line-length
-            "SELECT mixerr.cocktailingredients.quantity AS quantity, mixerr.preposition.preposition, mixerr.ingredient.ingredientname, mixerr.ingredient.ingredienttypeno FROM Mixerr.cocktailingredients INNER JOIN Mixerr.ingredient ON Mixerr.cocktailingredients.ingredientno = Mixerr.ingredient.ingredientno INNER JOIN Mixerr.ingredientprepositions  ON Mixerr.ingredient.ingredientno = Mixerr.ingredientprepositions.ingredientno INNER JOIN Mixerr.preposition ON Mixerr.ingredientprepositions.prepositionno = Mixerr.preposition.prepositionno INNER JOIN Mixerr.cocktail ON Mixerr.cocktailingredients.cocktailno = Mixerr.cocktail.cocktailno WHERE cocktail.cocktailno = " + "\'" + cocktailNo + "\';",
+            "SELECT cockIng.quantity AS quantity, ing.ingredientno, ing.ingredientname, prep.preposition, ing.ingredienttypeno, ingT.ingredienttype FROM Mixerr.cocktailingredients AS cockIng INNER JOIN Mixerr.ingredient AS ing ON cockIng.ingredientno   = ing.ingredientno INNER JOIN Mixerr.ingredientprepositions AS ingPrep ON ing.ingredientno = ingPrep.ingredientno INNER JOIN Mixerr.preposition AS prep ON ingPrep.prepositionno = prep.prepositionno INNER JOIN Mixerr.cocktail AS cock ON cockIng.cocktailno = cock.cocktailno INNER JOIN Mixerr.ingredienttype AS ingT ON ing.ingredienttypeno = ingT.typeno WHERE cock.cocktailno = " + "\'" + cocktailNo + "\';",
             { type: Sequelize.QueryTypes.SELECT})
         // tslint:disable-next-line:no-any
         .then((results: any) => {
-            return { hasBeenFound: true, recipe: this.recipeBuilder(results, cocktailNo) };
+            return { hasBeenFound: true, foundRecipe: this.recipeBuilder(results, cocktailNo) } as iRecipeQuery;
         })
         .catch((err: Error) => {
-            return { hasBeenFound: false, recipe: undefined };
+            return { hasBeenFound: false } as iRecipeQuery;
         });
     }
 
     private recipeBuilder(foundIngredients: any, cocktailNo: string): iRecipe {
-        const ingredients: iIngredient[] = [];
+        const cocktailIngredients: iCocktailIngredient[] = [];
 
         foundIngredients.forEach((ing: any) => {
-            ingredients.push(this.ingredientBuilder(ing));
+            cocktailIngredients.push(this.cocktailIngredientBuilder(ing));
         });
 
         return {
-            cocktailno:     cocktailNo,
-            ingredients:    ingredients,
+            cocktailno:             cocktailNo,
+            cocktailIngredients:    cocktailIngredients,
         } as iRecipe;
     }
 
-    public ingredientBuilder(ingredient: any): iIngredient {
+    public cocktailIngredientBuilder(ingredient: any): iCocktailIngredient {
         return {
             quantity:       ingredient.quantity,
-            preposition:    ingredient.preposition,
-            aliment:        ingredient.ingredientname,
-            type:           ingredient.ingredienttype,
-        } as iIngredient;
+            ingredient: {
+                ingredientNo:   ingredient.ingredientno,
+                ingredientName: ingredient.ingredientname,
+                preposition:    ingredient.preposition,
+                ingredientType: {
+                    typeno: ingredient.typeno,
+                    type:   ingredient.ingredienttype,
+                } as iIngredientType,
+            } as iIngredient,
+        } as iCocktailIngredient;
     }
 
 }

@@ -24,13 +24,13 @@
     
     <div  #recipeDisplay style="color: black; padding-left: 10px; padding-right: 10px">
         <h4>Ingrédients</h4>
-        <div style="margin-left: 10px;" *ngFor="let ingredient of recipe?.ingredients">
+        <div *ngFor="let cockIngredient of recipe?.cocktailIngredients"  style="margin-left: 10px;" >
             <div>
               <div style="display: inline-block; font-weight: 400; width:40px; text-align: start; padding-right: 5px">
-                  {{ ingredient.quantity }}
+                  {{ cockIngredient.quantity }}
                 </div>
-                {{ ingredient.preposition }}
-                {{ ingredient.aliment }}</div>
+                {{ cockIngredient.ingredient.preposition }}
+                {{ cockIngredient.ingredient.ingredientName }}</div>
                 <!-- <div>{{ ingredient }}</div> -->
               </div>
               

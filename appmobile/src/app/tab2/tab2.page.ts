@@ -5,7 +5,7 @@ import { iCocktail, iCocktailQuery } from '../../../../common/interfaces';
 import { Constants } from "../../../../common/constants";
 
 import { ViewChild} from '@angular/core';
-import { IonSearchbar } from '@ionic/angular';
+import { IonSearchbar, IonContent } from '@ionic/angular';
 import { CocktailPresentationPage } from "../cocktail-presentation/cocktail-presentation.page";
 import { ModalController } from '@ionic/angular';
 
@@ -26,6 +26,7 @@ export class Tab2Page implements OnInit {
   public cocktailToDisplay: iCocktail;
 
   @ViewChild("searchBar") searchBar: IonSearchbar;
+  @ViewChild(IonContent) content: IonContent;
 
   public constructor(private httpClient: HttpClient, public modalController: ModalController) {}
   
@@ -62,20 +63,8 @@ export class Tab2Page implements OnInit {
     this.isInRecipeView = false;
   }
 
-  // jpense que cette fonction est devenue obsolète
-  public onCocktailSelected(cocktailToDisplay: iCocktail): void {
-    // recevoir un event que le cocktail thumbnail va emit
-    this.cocktailToDisplay = cocktailToDisplay;
-    this.isInRecipeView = true;
-  }
-
   public toggleSearchBar(): void {
-    this.searchViewIsActive = !this.searchViewIsActive;
-
-    if(!this.searchViewIsActive) {
-      this.searchText = "";
-      this.fetchAllCocktails();
-    } 
+    this.content.scrollToTop(1000);
   }
 
   private async fetchAllCocktails(): Promise<void> {
