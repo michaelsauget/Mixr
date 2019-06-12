@@ -15,7 +15,15 @@
 
 <ion-content #cocktailList *ngIf="!isInRecipeView" color="medium">
   <div>
-    <ion-searchbar #searchBar  *ngIf="searchViewIsActive" [(ngModel)]="searchText" placeholder="Entrez un nom de cocktail" (ionChange)="onSearchBarInput()" showCancelButton></ion-searchbar>
+    <ion-searchbar
+      #searchBar
+      *ngIf="searchViewIsActive"
+      [(ngModel)]="searchText"
+      placeholder="Entrez un nom de cocktail"
+      (ionChange)="onSearchBarInput()"
+      showCancelButton>
+    </ion-searchbar>
+
     <div *ngFor="let cocktail of cocktails">
       <div #card>
         <app-cocktail-thumbnail [cocktail]="cocktail" (viewRecipeEmitter)="onCocktailSelected($event)"></app-cocktail-thumbnail>
