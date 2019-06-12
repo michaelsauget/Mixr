@@ -33,34 +33,47 @@ ON Mixerr.ingredienttype.typeno = Mixerr.ingredient.ingredienttypeno
 ORDER BY ingredienttype.ingredienttype;
 
 
+
+
 /*
-On a les tables :
-  - cocktailIngredient      (cocktailNo, ingredientNo, quantity)
-  - ingredient              (ingredientNo,   ingredientTypeNo,  ingredientName)
-  - preposition             (prepositionNo, preposition)
-  - ingredientPreposition   (ingredientNo,  prepositionNo)
+ici on aimerait avoir :
+            quantity:       ingredient.quantity,
+            ingredient: {
+                ingredientNo: "",
+                ingredientName:        ingredient.ingredientname,
+                preposition:    ingredient.preposition,
+                ingredientType: {
+                    typeno:     "",
+                    type:       ingredient.ingredienttype,
+                } as iIngredientType,
+            } as iIngredient,
+        } as iCocktailIngredient;
+
+Donc : quantity, ingredientno, ingredientName, preposition, typeno, type
+*/
+SELECT cockIng.quantity AS quantity, ing.ingredientno, ing.ingredientname, prep.preposition, ing.ingredienttypeno, ingT.ingredienttype
+FROM Mixerr.cocktailingredients AS cockIng
+INNER JOIN Mixerr.ingredient AS ing                 ON cockIng.ingredientno   = ing.ingredientno
+INNER JOIN Mixerr.ingredientprepositions AS ingPrep ON ing.ingredientno       = ingPrep.ingredientno
+INNER JOIN Mixerr.preposition AS prep               ON ingPrep.prepositionno  = prep.prepositionno
+INNER JOIN Mixerr.cocktail AS cock                  ON cockIng.cocktailno     = cock.cocktailno
+INNER JOIN Mixerr.ingredienttype AS ingT            ON ing.ingredienttypeno   = ingT.typeno
+WHERE cock.cocktailno = '33';
 
 
-on veut ->
-
-  cocktailIngredient.quantity,
-  preposition.preposition,
-  ingredient.ingredientName
-
-pour tous les cocktailIngredient
 
 
-donc on part de cocktailIngredient -> ingredient -> ingredientPreposition -> Preposition
+/* récupérer tous les ingrédients avec toutes leurs infos
+ on veut:
+ ingredientno, ingredientname, ingredienttype, ingredienttypeno, preposition
  */
 
-SELECT mixerr.cocktailingredients.quantity AS quantity, mixerr.preposition.preposition, mixerr.ingredient.ingredientname, mixerr.ingredient.ingredienttypeno
-FROM Mixerr.cocktailingredients
-INNER JOIN Mixerr.ingredient              ON Mixerr.cocktailingredients.ingredientno = Mixerr.ingredient.ingredientno
-INNER JOIN Mixerr.ingredientprepositions  ON Mixerr.ingredient.ingredientno = Mixerr.ingredientprepositions.ingredientno
-INNER JOIN Mixerr.preposition             ON Mixerr.ingredientprepositions.prepositionno = Mixerr.preposition.prepositionno
-INNER JOIN Mixerr.cocktail                ON Mixerr.cocktailingredients.cocktailno = Mixerr.cocktail.cocktailno
--- INNER JOIN Mixerr.ingredienttype          ON Mixerr.ingredient.ingredienttypeno = Mixerr.ingredienttype.typeno
-WHERE cocktail.cocktailno = '33';
+SELECT ing.ingredientno, ing.ingredientname, ing.ingredienttypeno, ingType.ingredienttype, prep.preposition
+FROM Mixerr.ingredient AS ing
+INNER JOIN Mixerr.ingredienttype AS ingType ON ing.ingredienttypeno = ingType.typeno
+INNER JOIN Mixerr.ingredientprepositions AS ingPrep ON ing.ingredientno = ingPrep.ingredientno
+INNER JOIN Mixerr.preposition AS prep ON ingPrep.prepositionno = prep.prepositionno
+
 
 
 
