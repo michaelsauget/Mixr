@@ -49,7 +49,7 @@ export class RecipeService extends DatabaseConnectionService {
                 ingredientName: ingredient.ingredientname,
                 preposition:    ingredient.preposition,
                 ingredientType: {
-                    typeno: ingredient.typeno,
+                    typeno: ingredient.ingredienttypeno,
                     type:   ingredient.ingredienttype,
                 } as iIngredientType,
             } as iIngredient,
