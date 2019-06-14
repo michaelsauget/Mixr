@@ -5,8 +5,11 @@ export default  {
         CocktailService:                Symbol("CocktailService"),
         CocktailController:             Symbol("CocktailController"),
 
-        RecipeService:                Symbol("RecipeService"),
-        RecipeController:             Symbol("RecipeController"),
+        RecipeService:                  Symbol("RecipeService"),
+        RecipeController:               Symbol("RecipeController"),
+
+        TasteTagService:                Symbol("TasteTagService"),
+        TasteTagController:             Symbol("TasteTagController"),
 
         DatabaseConnectionService:      Symbol("DatabaseConnectionService"),
 
