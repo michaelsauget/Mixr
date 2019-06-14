@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { IngredientDisplayPipe } from './ingredient-display.pipe';
-// import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent, IngredientDisplayPipe],
@@ -23,7 +22,6 @@ import { IngredientDisplayPipe } from './ingredient-display.pipe';
     HttpClientModule
   ],
   providers: [
-    // Camera,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
