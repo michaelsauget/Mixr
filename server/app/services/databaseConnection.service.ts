@@ -12,10 +12,10 @@ export class DatabaseConnectionService {
     public connection: any;
 
     public constructor() {
-        this.connection = new Sequelize("postgres", "postgres", Constants.DATABASE_PASSWORD, {
+        this.connection = new Sequelize(Constants.DATABASE_NAME, Constants.DATABASE_USER, Constants.DATABASE_PASSWORD, {
             host:       Constants.DATABASE_SERVER_URL,
             port:       Constants.DATABASE_SERVER_PORT,
-            dialect:    "postgres",
+            dialect:    Constants.DATABASE_ENGINE,
             schema:     Constants.DATABASE_SCHEMA,
         });
 
