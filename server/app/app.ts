@@ -4,8 +4,10 @@ import * as cors from "cors";
 import * as express from "express";
 import { inject, injectable } from "inversify";
 import * as logger from "morgan";
+import { TasteTagController } from "./controllers/TasteTag.controller";
 import { CocktailController } from "./controllers/cocktail.controller";
-import { RecipeController } from "./controllers/recipe.controller";
+import { RecipeController   } from "./controllers/recipe.controller";
+
 import Types from "./types";
 
 @injectable()
@@ -17,6 +19,7 @@ export class Application {
     public constructor(
         @inject(Types.CocktailController)   private cocktailController: CocktailController,
         @inject(Types.RecipeController)     private recipeController:   RecipeController,
+        @inject(Types.TasteTagController)   private tasteTagController: TasteTagController,
     ) {
         this.app = express();
 
@@ -39,6 +42,7 @@ export class Application {
         // Notre application utilise le routeur de notre API `Index`
         this.app.use("/api/cocktail",   this.cocktailController.router);
         this.app.use("/api/recipe",     this.recipeController.router);
+        this.app.use("/api/tag",        this.tasteTagController.router);
 
         this.errorHandeling();
     }
