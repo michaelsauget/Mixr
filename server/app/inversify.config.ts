@@ -4,11 +4,14 @@ import { Server } from "./server";
 
 import { CocktailController } from "./controllers/cocktail.controller";
 import { CocktailService } from "./services/cocktail.service";
+
 import { DatabaseConnectionService } from "./services/databaseConnection.service";
 
 import { RecipeController } from "./controllers/recipe.controller";
 import { RecipeService } from "./services/recipe.service";
-// import { DatabaseConnectionService } from "";
+
+import { TasteTagController } from "./controllers/tasteTag.controller";
+import { TasteTagService } from "./services/tasteTag.service";
 
 import Types from "./types";
 
@@ -22,6 +25,9 @@ container.bind(Types.CocktailService).to(CocktailService);
 
 container.bind(Types.RecipeController).to(RecipeController);
 container.bind(Types.RecipeService).to(RecipeService);
+
+container.bind(Types.TasteTagController).to(TasteTagController);
+container.bind(Types.TasteTagService).to(TasteTagService);
 
 container.bind(Types.DatabaseConnectionService).to(DatabaseConnectionService).inSingletonScope();
 
