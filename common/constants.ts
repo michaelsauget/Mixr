@@ -16,7 +16,7 @@ export class Constants {
     public static readonly DATABASE_SCHEMA:         string = "mixerr";
     public static readonly DATABASE_NAME:           string = "mixr";
     public static readonly DATABASE_USER:           string = "dbadmin";
-
+    public static readonly DATABASE_ENGINE:	    string = "postgres";
 
     public static readonly API_COCKTAIL:            string = "/api/cocktail/";
     public static readonly API_RECIPE:              string = "/api/recipe/";
