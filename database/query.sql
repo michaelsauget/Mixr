@@ -72,8 +72,14 @@ SELECT ing.ingredientno, ing.ingredientname, ing.ingredienttypeno, ingType.ingre
 FROM Mixerr.ingredient AS ing
 INNER JOIN Mixerr.ingredienttype AS ingType ON ing.ingredienttypeno = ingType.typeno
 INNER JOIN Mixerr.ingredientprepositions AS ingPrep ON ing.ingredientno = ingPrep.ingredientno
-INNER JOIN Mixerr.preposition AS prep ON ingPrep.prepositionno = prep.prepositionno
+INNER JOIN Mixerr.preposition AS prep ON ingPrep.prepositionno = prep.prepositionno;
 
 
 
 
+/* recupérer tous les tags associés au cocktails */
+
+SELECT tag.tagno, tag.taste, cock.cocktailno
+FROM Mixerr.tastetag AS tag
+INNER JOIN Mixerr.cocktailtastetags AS cockTag ON tag.tagno = cockTag.tastetagno
+INNER JOIN Mixerr.cocktail AS cock ON cockTag.cocktailno = cock.cocktailno;
