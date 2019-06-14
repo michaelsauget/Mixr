@@ -8,6 +8,7 @@ import { ViewChild} from '@angular/core';
 import { IonSearchbar, IonContent } from '@ionic/angular';
 import { CocktailPresentationPage } from "../cocktail-presentation/cocktail-presentation.page";
 import { ModalController } from '@ionic/angular';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -26,9 +27,13 @@ export class Tab2Page implements OnInit {
   public cocktailToDisplay: iCocktail;
 
   @ViewChild("searchBar") searchBar: IonSearchbar;
-  @ViewChild(IonContent) content: IonContent;
-
-  public constructor(private httpClient: HttpClient, public modalController: ModalController) {}
+  @ViewChild(IonContent) content: IonContent;  
+  
+  public constructor(
+	private httpClient: HttpClient, 
+	public modalController: ModalController, 
+	private navController: NavController
+  ) {}
   
   public async ngOnInit(): Promise<void> {
     await this.fetchAllCocktails();
@@ -65,6 +70,7 @@ export class Tab2Page implements OnInit {
 
   public toggleSearchBar(): void {
     this.content.scrollToTop(1000);
+    this.searchBar.setFocus(); 
   }
 
   private async fetchAllCocktails(): Promise<void> {
