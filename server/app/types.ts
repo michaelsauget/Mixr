@@ -12,6 +12,7 @@ export default  {
         TasteTagController:             Symbol("TasteTagController"),
 
         DatabaseConnectionService:      Symbol("DatabaseConnectionService"),
+        InterfaceBuilder:               Symbol("InterfaceBuilder"),
 
         // IndexController: Symbol("IndexController"),
         // DateController: Symbol("DateController"),
