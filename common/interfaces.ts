@@ -5,6 +5,7 @@ export interface iCocktail {
     photourl:       string;
     preparation:    string;
     decoration:     string;
+    tasteTags:      iTasteTag[];
 }
 
 export interface iCocktailQuery {
@@ -46,5 +47,5 @@ export interface iTasteTag {
 
 export interface iTasteTagQuery {
     hasBeenFound:   boolean;
-    tags:           iTasteTag[];
+    tags?:          Map<number, iTasteTag[]>;
 }
