@@ -78,8 +78,12 @@ INNER JOIN Mixerr.preposition AS prep ON ingPrep.prepositionno = prep.prepositio
 
 
 /* recupérer tous les tags associés au cocktails */
-
-SELECT tag.tagno, tag.taste, cock.cocktailno
+CREATE VIEW v_cocktailTags AS
+SELECT tag.tagno AS tagno, tag.taste AS taste, cock.cocktailno AS cocktailno
 FROM Mixerr.tastetag AS tag
 INNER JOIN Mixerr.cocktailtastetags AS cockTag ON tag.tagno = cockTag.tastetagno
-INNER JOIN Mixerr.cocktail AS cock ON cockTag.cocktailno = cock.cocktailno;
+INNER JOIN Mixerr.cocktail AS cock ON cockTag.cocktailno = cock.cocktailno
+ORDER BY CAST(cockTag.cocktailno AS INTEGER);
+
+
+SELECT * FROM v_cocktailTags;
