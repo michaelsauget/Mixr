@@ -13,7 +13,11 @@
           <ion-col style="padding-bottom: 0"><div style="font-weight: 600">{{ cocktail.name }}</div></ion-col>
         </ion-row>
         <ion-row>
-          <ion-col><div style="font-size: 0.8em; padding-top: 0">{{ cocktail.price }}</div></ion-col>
+          <ion-col>
+            <div *ngFor="let tag of cocktail.tasteTags" style="display: inline">
+              <div class="taste{{tag.tagNo}}" style="display: inline; font-size: 0.7em; padding: 4px 8px; margin-right: 5px; color: white; border-radius: 14px;">{{ tag.taste }}</div>
+            </div>
+          </ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
