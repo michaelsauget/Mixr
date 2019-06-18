@@ -26,10 +26,6 @@ export class CocktailController {
             res.send(await this.cocktailService.searchByName(req.params.entry));
         });
 
-        router.get("/tasteTags", async (req: Request, res: Response, next: NextFunction) => {
-            res.send(await this.cocktailService.getAllTasteTags());
-        });
-
         return router;
     }
 
