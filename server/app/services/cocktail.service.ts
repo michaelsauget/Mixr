@@ -1,34 +1,79 @@
 
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import "reflect-metadata";
 
 import { Constants } from "../../../common/constants";
-import { iCocktail, iCocktailQuery, iTasteTag } from "../../../common/interfaces";
+import { iCocktail, iCocktailQuery, iTasteTag, iTasteTagQuery } from "../../../common/interfaces";
 import { DatabaseConnectionService } from "./databaseConnection.service";
+import { InterfaceBuilder } from "./interfaceBuilder";
+
+import { TasteTagService } from "./tasteTag.service";
+
+import Types from "../types";
 
 // tslint:disable-next-line:variable-name typedef
 const Sequelize = require("sequelize");
 
 const cocktailTableName: string = "cocktail";
-const tasteTagTableName: string = "tastetag";
+
+
+/******** A ENELVER *****************/
+// import { BuildOptions, DataTypes, Model } from "sequelize";
+
+// interface MyModel extends Model {
+//     readonly id: number;
+//   }
+/***********************************/
 
 @injectable()
-export class CocktailService extends DatabaseConnectionService {
+export class CocktailService {
 
     // tslint:disable-next-line:no-any
     private cocktail: any;
-    private tasteTag: any;
+    // private tasteTag: any;
 
-    public constructor() {
-        super();
+    // private MyModelStatic: MyModel;
+    // private MyDefineModel: MyModelStatic;
+
+    // public petpet(): void {
+    //     // Need to declare the static model so `findOne` etc. use correct types.
+    //     type MyModelStatic = typeof Model & {
+    //       new (values?: object, options?: BuildOptions): MyModel;
+    //     };
+
+
+    //     // TS can't derive a proper class definition from a `.define` call, therefor we need to cast here.
+    //     this.MyDefineModel = this.connection.define("MyDefineModel", {
+    //         id: {
+    //             primaryKey: true,
+    //             type:       DataTypes.INTEGER.UNSIGNED,
+    //         }
+    //     }) as MyModelStatic;
+    // }
+
+    // public stuffTwo(): void {
+    //     this.MyDefineModel.findByPk(1, {
+    //         rejectOnEmpty: true,
+    //     })
+    //     .then((myModel: any) => {
+    //         //   console.log(myModel.id);
+    //     });
+    // }
+
+    public constructor(
+        @inject(Types.InterfaceBuilder)             private builder:            InterfaceBuilder,
+        @inject(Types.TasteTagService)              private tasteTagService:    TasteTagService,
+        @inject(Types.DatabaseConnectionService)    private databaseService:    DatabaseConnectionService) {
         this.defineCocktail();
-        this.defineTasteTag();
     }
 
     public async getAll(): Promise<iCocktailQuery> {
         return this.cocktail.findAll()
-        .then((foundCocktails: any) => {
-            return { hasBeenFound: true, cocktail: this.getCocktailsArray(foundCocktails) };
+        .then(async (foundCocktails: any) => {
+            const tagQuery: iTasteTagQuery  = await this.tasteTagService.getAllTags();
+            const cocktails: iCocktail[]    = this.getCocktailsArray(foundCocktails, tagQuery.tags);
+
+            return { hasBeenFound: true, cocktail: cocktails };
         })
         .catch((err: Error) => {
             return { hasBeenFound: false, cocktail: undefined };
@@ -49,31 +94,21 @@ export class CocktailService extends DatabaseConnectionService {
             return { hasBeenFound: true, cocktail: this.getCocktailsArray(foundCocktails) };
         })
         .catch((err: Error) => {
-            return { hasBeenFound: false, cocktail: undefined };
+            return { hasBeenFound: false };
         });    }
 
     public async getById(id: string): Promise<iCocktailQuery> {
         return this.cocktail.findByPk(id)
         .then((foundCocktail: any) => {
-            return { hasBeenFound: true, cocktail: this.cocktailBuilder(foundCocktail) };
+            return { hasBeenFound: true, cocktail: this.builder.buildCocktail(foundCocktail) };
         })
         .catch((err: Error) => {
-            return { hasBeenFound: false, cocktail: undefined };
-        });
-    }
-
-    public async getAllTasteTags(): Promise<iTasteTag[]> {
-        return this.tasteTag.findAll()
-        .then((foundTags: any) => {
-            return { hasBeenFound: true, tags: this.getTagsArray(foundTags) };
-        })
-        .catch((err: Error) => {
-            return { hasBeenFound: false, tags: undefined };
+            return { hasBeenFound: false };
         });
     }
 
     private defineCocktail(): void {
-        this.cocktail  = this.connection.define(
+        this.cocktail  = this.databaseService.connection.define(
             cocktailTableName,
             {   // attributes
                 cocktailno: {
@@ -97,60 +132,17 @@ export class CocktailService extends DatabaseConnectionService {
             });
     }
 
-    private getCocktailsArray(foundCocktail: any): iCocktail[] {
+    private getCocktailsArray(
+        foundCocktails: any,
+        foundTags: Map<number, iTasteTag[]> = new Map<number, iTasteTag[]>()
+    ): iCocktail[] {
         const cocktails: iCocktail[] = [];
 
-        foundCocktail.forEach((cocktail: any) => {
-            cocktails.push(this.cocktailBuilder(cocktail));
+        foundCocktails.forEach((cocktail: any) => {
+            const tags: iTasteTag[] | undefined = foundTags.get(Number(cocktail.cocktailno));
+            cocktails.push(this.builder.buildCocktail(cocktail, tags));
         });
 
         return cocktails;
     }
-
-    public cocktailBuilder(cocktailToBuild: any): iCocktail {
-        return {
-            cocktailno:     cocktailToBuild.cocktailno,
-            name:           cocktailToBuild.name,
-            price:          cocktailToBuild.price,
-            photourl:       cocktailToBuild.photourl,
-            preparation:    cocktailToBuild.preparation,
-            decoration:     cocktailToBuild.decoration,
-        } as iCocktail;
-    }
-
-    private defineTasteTag(): void {
-        this.tasteTag  = this.connection.define(
-            tasteTagTableName,
-            {   // attributes
-                tagno: {
-                    type:       Sequelize.STRING,
-                    allowNull:  false,
-                    primaryKey: true,
-                },
-                taste: {
-                    type:       Sequelize.STRING,
-                    allowNull:  false,
-                },
-            },
-            {
-                schema:             Constants.DATABASE_SCHEMA,
-                timestamps:         false,
-                freezeTableName:    true,
-            });
-    }
-
-    private getTagsArray(foundTags: any): iTasteTag[] {
-        const tags: iTasteTag[] = [];
-
-        foundTags.forEach((tag: any) => {
-            tags.push(this.tagBuilder(tag));
-        });
-
-        return tags;
-    }
-
-    public tagBuilder(tag: any): iTasteTag {
-        return { taste: tag.taste } as iTasteTag;
-    }
-
 }
