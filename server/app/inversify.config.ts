@@ -13,6 +13,8 @@ import { RecipeService } from "./services/recipe.service";
 import { TasteTagController } from "./controllers/tasteTag.controller";
 import { TasteTagService } from "./services/tasteTag.service";
 
+import { InterfaceBuilder } from "./services/interfaceBuilder";
+
 import Types from "./types";
 
 const container: Container = new Container();
@@ -30,5 +32,6 @@ container.bind(Types.TasteTagController).to(TasteTagController);
 container.bind(Types.TasteTagService).to(TasteTagService);
 
 container.bind(Types.DatabaseConnectionService).to(DatabaseConnectionService).inSingletonScope();
+container.bind(Types.InterfaceBuilder).to(InterfaceBuilder);
 
 export { container };
