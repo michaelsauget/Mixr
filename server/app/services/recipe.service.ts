@@ -1,23 +1,32 @@
 
-import { injectable } from "inversify";
 import "reflect-metadata";
+
+import { inject, injectable } from "inversify";
 import { iCocktailIngredient, iIngredient, iIngredientType, iRecipe, iRecipeQuery } from "../../../common/interfaces";
 import { DatabaseConnectionService } from "./databaseConnection.service";
+
+import Types from "../types";
 
 // tslint:disable-next-line: variable-name no-any
 const Sequelize: any = require("sequelize");
 
 @injectable()
-export class RecipeService extends DatabaseConnectionService {
+export class RecipeService {
 
-    public constructor() {
-        super();
+    public constructor(@inject(Types.DatabaseConnectionService) private databaseService: DatabaseConnectionService)  {
     }
 
     public async getCocktailRecipe(cocktailNo: string): Promise<iRecipeQuery> {
-        return this.connection.query(
+        return this.databaseService.connection.query(
             // tslint:disable-next-line:max-line-length
-            "SELECT cockIng.quantity AS quantity, ing.ingredientno, ing.ingredientname, prep.preposition, ing.ingredienttypeno, ingT.ingredienttype FROM Mixerr.cocktailingredients AS cockIng INNER JOIN Mixerr.ingredient AS ing ON cockIng.ingredientno   = ing.ingredientno INNER JOIN Mixerr.ingredientprepositions AS ingPrep ON ing.ingredientno = ingPrep.ingredientno INNER JOIN Mixerr.preposition AS prep ON ingPrep.prepositionno = prep.prepositionno INNER JOIN Mixerr.cocktail AS cock ON cockIng.cocktailno = cock.cocktailno INNER JOIN Mixerr.ingredienttype AS ingT ON ing.ingredienttypeno = ingT.typeno WHERE cock.cocktailno = " + "\'" + cocktailNo + "\';",
+            "SELECT cockIng.quantity AS quantity, ing.ingredientno, ing.ingredientname, prep.preposition, ing.ingredienttypeno, ingT.ingredienttype\
+            FROM Mixerr.cocktailingredients AS cockIng\
+            INNER JOIN Mixerr.ingredient AS ing ON cockIng.ingredientno = ing.ingredientno\
+            INNER JOIN Mixerr.ingredientprepositions AS ingPrep ON ing.ingredientno = ingPrep.ingredientno\
+            INNER JOIN Mixerr.preposition AS prep ON ingPrep.prepositionno = prep.prepositionno\
+            INNER JOIN Mixerr.cocktail AS cock ON cockIng.cocktailno = cock.cocktailno\
+            INNER JOIN Mixerr.ingredienttype AS ingT ON ing.ingredienttypeno = ingT.typeno\
+            WHERE cock.cocktailno = " + "\'" + cocktailNo + "\';",
             { type: Sequelize.QueryTypes.SELECT})
         // tslint:disable-next-line:no-any
         .then((results: any) => {
