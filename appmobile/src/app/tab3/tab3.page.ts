@@ -19,29 +19,30 @@ export class Tab3Page implements AfterViewInit {
     photourl:       "",
     preparation:    "",
     decoration:     "",
+    tasteTags:      [],
   };
   public ingredients: iIngredient;
   
   constructor(private httpClient: HttpClient) {}
   
   ngAfterViewInit(): void {
-    this.getAllTags();
+    // this.getAllTags();
   }
 
-  public getAllTags(): void {
-    this.httpClient.get<iTasteTagQuery>(Constants.SERVER_URL + ":" + Constants.SERVER_PORT + Constants.API_COCKTAIL + "/tastetags")
-    .subscribe((query: iTasteTagQuery) => {
-      this.tasteTags = query.tags;
+  // public getAllTags(): void {
+  //   this.httpClient.get<iTasteTagQuery>(Constants.SERVER_URL + ":" + Constants.SERVER_PORT + Constants.API_COCKTAIL + "/tastetags")
+  //   .subscribe((query: iTasteTagQuery) => {
+  //     this.tasteTags = query.tags;
       
-    });
-  }
+  //   });
+  // }
 
 
-  logForm() {
-    console.log(this.cocktail)
-    console.log(this.tasteTags);
+  // logForm() {
+  //   console.log(this.cocktail)
+  //   console.log(this.tasteTags);
     
-  }
+  // }
 
 
 }
